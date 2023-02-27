@@ -30,15 +30,22 @@ import java.util.ResourceBundle;
 public class GameViewController implements Initializable {
 
     @FXML
-    public ImageView rockImage, paperImage, sicissorsImage, playerDesicionView, aiDescisionImage, compImage, resultImage;
+    private ImageView rockImage,
+            paperImage,
+            sicissorsImage,
+            playerDesicionView,
+            aiDescisionImage,
+            compImage,
+            resultImage,
+            leftHand,
+            rightHand,
+            humanImg;
     @FXML
-    public Label versusLabel, playerNameLabel, aiNamelLabel, resultLabelAI, resultLabelPlayer;
-    public Label resultLabel;
-    public MFXButton restartBtn;
+    private Label versusLabel, playerNameLabel, aiNamelLabel, resultLabelAI, resultLabelPlayer,resultLabel;
+    @FXML
+    private MFXButton restartBtn;
     private int scoreAI = 0;
     private int scorePlayer = 0;
-
-
 
     private String decision;
 
@@ -50,14 +57,16 @@ public class GameViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setImages();
-
     }
 
     private void setImages(){
+        leftHand.setImage(new javafx.scene.image.Image("/icons/left-hand.png"));
+        rightHand.setImage(new javafx.scene.image.Image("/icons/right-hand.png"));
         rockImage.setImage(new javafx.scene.image.Image("/icons/rock-icon.png"));
         paperImage.setImage(new javafx.scene.image.Image("/icons/paper-icon.png"));
         sicissorsImage.setImage(new javafx.scene.image.Image("/icons/sicossors-icon.png"));
         compImage.setImage(new Image("/icons/AI-starting-icon.png"));
+        humanImg.setImage(new Image("/icons/human-face.png"));
     }
 
 
@@ -97,19 +106,19 @@ public class GameViewController implements Initializable {
                 playerDesicionView.setVisible(false);
                 versusLabel.setVisible(false);
                 resultImage.setVisible(true);
-                resultImage.setImage(new Image("/icons/win-icon.png"));
+               // resultImage.setImage(new Image("/icons/win-icon.png"));
             } else if (model.getWinner(decision).contains("Tie")) {
                 playerDesicionView.setVisible(false);
                 versusLabel.setVisible(false);
                 resultImage.setVisible(true);
-                resultImage.setImage(new Image("/icons/draw-icon.png"));
+              //  resultImage.setImage(new Image("/icons/draw-icon.png"));
             } else if (model.getWinner(decision).contains("AI")){
                 scoreAI++;
                 resultLabelAI.setText("" + scoreAI);
                 playerDesicionView.setVisible(false);
                 versusLabel.setVisible(false);
                 resultImage.setVisible(true);
-                resultImage.setImage(new Image("/icons/lose-icon.png"));
+              //  resultImage.setImage(new Image("/icons/lose-icon.png"));
             }
         }
     }
