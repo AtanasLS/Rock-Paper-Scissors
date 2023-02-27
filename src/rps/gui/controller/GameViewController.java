@@ -95,15 +95,11 @@ public class GameViewController implements Initializable {
                 scorePlayer++;
                 resultLabelPlayer.setText("" + scorePlayer);
                 playerDesicionView.setVisible(false);
-                aiNamelLabel.setVisible(false);
-                playerNameLabel.setVisible(false);
                 versusLabel.setVisible(false);
                 resultImage.setVisible(true);
                 resultImage.setImage(new Image("/icons/win-icon.png"));
             } else if (model.getWinner(decision).contains("Tie")) {
                 playerDesicionView.setVisible(false);
-                aiNamelLabel.setVisible(false);
-                playerNameLabel.setVisible(false);
                 versusLabel.setVisible(false);
                 resultImage.setVisible(true);
                 resultImage.setImage(new Image("/icons/draw-icon.png"));
@@ -111,8 +107,6 @@ public class GameViewController implements Initializable {
                 scoreAI++;
                 resultLabelAI.setText("" + scoreAI);
                 playerDesicionView.setVisible(false);
-                aiNamelLabel.setVisible(false);
-                playerNameLabel.setVisible(false);
                 versusLabel.setVisible(false);
                 resultImage.setVisible(true);
                 resultImage.setImage(new Image("/icons/lose-icon.png"));
