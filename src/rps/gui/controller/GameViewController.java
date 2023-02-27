@@ -38,14 +38,14 @@ public class GameViewController implements Initializable {
             compImage,
             resultImage,
             leftHand,
-            rightHand;
+            rightHand,
+            humanImg;
     @FXML
     private Label versusLabel, playerNameLabel, aiNamelLabel, resultLabelAI, resultLabelPlayer,resultLabel;
+    @FXML
     private MFXButton restartBtn;
     private int scoreAI = 0;
     private int scorePlayer = 0;
-
-
 
     private String decision;
 
@@ -57,7 +57,6 @@ public class GameViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setImages();
-
     }
 
     private void setImages(){
@@ -67,6 +66,7 @@ public class GameViewController implements Initializable {
         paperImage.setImage(new javafx.scene.image.Image("/icons/paper-icon.png"));
         sicissorsImage.setImage(new javafx.scene.image.Image("/icons/sicossors-icon.png"));
         compImage.setImage(new Image("/icons/AI-starting-icon.png"));
+        humanImg.setImage(new Image("/icons/human-face.png"));
     }
 
 
@@ -108,14 +108,14 @@ public class GameViewController implements Initializable {
                 playerNameLabel.setVisible(false);
                 versusLabel.setVisible(false);
                 resultImage.setVisible(true);
-                resultImage.setImage(new Image("/icons/win-icon.png"));
+               // resultImage.setImage(new Image("/icons/win-icon.png"));
             } else if (model.getWinner(decision).contains("Tie")) {
                 playerDesicionView.setVisible(false);
                 aiNamelLabel.setVisible(false);
                 playerNameLabel.setVisible(false);
                 versusLabel.setVisible(false);
                 resultImage.setVisible(true);
-                resultImage.setImage(new Image("/icons/draw-icon.png"));
+              //  resultImage.setImage(new Image("/icons/draw-icon.png"));
             } else if (model.getWinner(decision).contains("AI")){
                 scoreAI++;
                 resultLabelAI.setText("" + scoreAI);
@@ -124,7 +124,7 @@ public class GameViewController implements Initializable {
                 playerNameLabel.setVisible(false);
                 versusLabel.setVisible(false);
                 resultImage.setVisible(true);
-                resultImage.setImage(new Image("/icons/lose-icon.png"));
+              //  resultImage.setImage(new Image("/icons/lose-icon.png"));
             }
         }
     }

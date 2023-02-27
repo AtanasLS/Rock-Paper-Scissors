@@ -35,7 +35,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="150.0">
                <children>
-                  <ImageView fx:id="compImage1" fitHeight="74.0" fitWidth="114.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="humanImg" fitHeight="74.0" fitWidth="114.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
             <HBox prefHeight="55.0" prefWidth="150.0">
