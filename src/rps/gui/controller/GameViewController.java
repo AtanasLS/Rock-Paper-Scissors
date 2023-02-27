@@ -1,25 +1,20 @@
 package rps.gui.controller;
 
 // Java imports
+import animatefx.animation.Bounce;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import jdk.jfr.TransitionFrom;
-import rps.bll.game.*;
-import rps.bll.player.IPlayer;
-import rps.bll.player.Player;
-import rps.bll.player.PlayerType;
+import javafx.util.Duration;
 import rps.gui.model.GameViewModel;
-//import rps.gui.Model.GameViewModel;
-
-import java.awt.*;
+import javafx.animation.KeyFrame;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -60,42 +55,57 @@ public class GameViewController implements Initializable {
     }
 
     private void setImages(){
-        leftHand.setImage(new javafx.scene.image.Image("/icons/left-hand.png"));
-        rightHand.setImage(new javafx.scene.image.Image("/icons/right-hand.png"));
-        rockImage.setImage(new javafx.scene.image.Image("/icons/rock-icon.png"));
-        paperImage.setImage(new javafx.scene.image.Image("/icons/paper-icon.png"));
-        sicissorsImage.setImage(new javafx.scene.image.Image("/icons/sicossors-icon.png"));
+        setOriginalHands();
+        rockImage.setImage(new Image("/icons/rock-icon.png"));
+        paperImage.setImage(new Image("/icons/paper-icon.png"));
+        sicissorsImage.setImage(new Image("/icons/sicossors-icon.png"));
         compImage.setImage(new Image("/icons/AI-starting-icon.png"));
         humanImg.setImage(new Image("/icons/human-face.png"));
     }
 
-
-    public void rockHandle(MouseEvent mouseEvent) {
-        decision = "Rock";
-        model.getWinner(decision);
-        playerDesicionView.setImage(new Image("/icons/rock-icon.png"));
-        resultLabel.setVisible(true);
-        resultLabel.setText(model.getWinner(decision));
-        changeToLastView();
-    }
-
-    public void handlePaper(MouseEvent mouseEvent) {
-        decision = "Paper";
-        model.getWinner(decision);
-        playerDesicionView.setImage(new Image("/icons/paper-icon.png"));
-        resultLabel.setVisible(true);
-        resultLabel.setText(model.getWinner(decision));
-        changeToLastView();
-
+    private void setOriginalHands() {
+        leftHand.setImage(new Image("/icons/left-hand.png"));
+        rightHand.setImage(new Image("/icons/right-hand.png"));
     }
 
     public void handleScissors(MouseEvent mouseEvent) {
-        decision = "Scissor";
-        model.getWinner(decision);
-        playerDesicionView.setImage(new Image("/icons/sicossors-icon.png"));
-        resultLabel.setVisible(true);
-        resultLabel.setText(model.getWinner(decision));
-        changeToLastView();
+        handleSelection("/icons/sicossors-icon.png", "Scissor");
+    }
+
+    public void handlePaper(MouseEvent mouseEvent) {
+        handleSelection("/icons/paper-icon.png", "Paper");
+    }
+
+    public void rockHandle(MouseEvent mouseEvent) {
+        handleSelection("/icons/rock-icon.png", "Rock");
+    }
+
+    private void handleSelection(String imageFile, String selection) {
+        setOriginalHands();
+
+        Bounce leftHandBounce = new Bounce(leftHand);
+        Bounce rightHandBounce = new Bounce(rightHand);
+
+        EventHandler<ActionEvent> setImage = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                leftHand.setImage(new Image(imageFile));
+              //  playerDesicionView.setImage(new Image(imageFile)); THIS ONE IS KINDA SKETCHY NOW
+                resultLabel.setText(model.getWinner(selection));
+                resultLabel.setVisible(true);
+                changeToLastView();
+            }
+        };
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, event -> {
+                    leftHandBounce.play();
+                    rightHandBounce.play();
+                }),
+                new KeyFrame(Duration.seconds(1), setImage)
+        );
+
+        timeline.play();
     }
 
     public void changeToLastView() {
