@@ -30,11 +30,18 @@ import java.util.ResourceBundle;
 public class GameViewController implements Initializable {
 
     @FXML
-    public ImageView rockImage, paperImage, sicissorsImage, playerDesicionView, aiDescisionImage, compImage, resultImage;
+    private ImageView rockImage,
+            paperImage,
+            sicissorsImage,
+            playerDesicionView,
+            aiDescisionImage,
+            compImage,
+            resultImage,
+            leftHand,
+            rightHand;
     @FXML
-    public Label versusLabel, playerNameLabel, aiNamelLabel, resultLabelAI, resultLabelPlayer;
-    public Label resultLabel;
-    public MFXButton restartBtn;
+    private Label versusLabel, playerNameLabel, aiNamelLabel, resultLabelAI, resultLabelPlayer,resultLabel;
+    private MFXButton restartBtn;
     private int scoreAI = 0;
     private int scorePlayer = 0;
 
@@ -54,6 +61,8 @@ public class GameViewController implements Initializable {
     }
 
     private void setImages(){
+        leftHand.setImage(new javafx.scene.image.Image("/icons/left-hand.png"));
+        rightHand.setImage(new javafx.scene.image.Image("/icons/right-hand.png"));
         rockImage.setImage(new javafx.scene.image.Image("/icons/rock-icon.png"));
         paperImage.setImage(new javafx.scene.image.Image("/icons/paper-icon.png"));
         sicissorsImage.setImage(new javafx.scene.image.Image("/icons/sicossors-icon.png"));
