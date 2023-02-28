@@ -50,6 +50,10 @@ public class Player implements IPlayer {
         ArrayList<Result> results = (ArrayList<Result>) state.getHistoricResults();
 
         //Implement better AI here...
-        return Move.Rock;
+
+        return Move.Scissor;
+    }
+    public String getAIMove(IGameState state){
+        return doMove(state).name();
     }
 }
