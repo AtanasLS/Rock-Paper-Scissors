@@ -51,6 +51,9 @@ public class Player implements IPlayer {
 
         //Implement better AI here...
 
-        return Move.Rock;
+        return Move.Scissor;
+    }
+    public String getAIMove(IGameState state){
+        return doMove(state).name();
     }
 }
