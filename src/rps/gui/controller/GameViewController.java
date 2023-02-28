@@ -46,6 +46,9 @@ public class GameViewController implements Initializable {
 
     GameViewModel model = new GameViewModel();
 
+    private String imageAI = model.getCompImage();
+
+
     /**
      * Initializes the controller class.
      */
@@ -69,7 +72,8 @@ public class GameViewController implements Initializable {
     }
 
     public void handleScissors(MouseEvent mouseEvent) {
-        handleSelection("/icons/sicossors-icon.png", "Scissor");
+        handleSelection("/icons/sicossors-icon.png" ,"Scissor");
+
     }
 
     public void handlePaper(MouseEvent mouseEvent) {
@@ -77,21 +81,24 @@ public class GameViewController implements Initializable {
     }
 
     public void rockHandle(MouseEvent mouseEvent) {
-        handleSelection("/icons/rock-icon.png", "Rock");
+        handleSelection("/icons/rock-icon.png",  "Rock");
+
     }
 
-    private void handleSelection(String imageFile, String selection) {
+    private void handleSelection(String imageFileP , String selection) {
         setOriginalHands();
 
         Bounce leftHandBounce = new Bounce(leftHand);
         Bounce rightHandBounce = new Bounce(rightHand);
 
+
         EventHandler<ActionEvent> setImage = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                leftHand.setImage(new Image(imageFile));
-              //  playerDesicionView.setImage(new Image(imageFile)); THIS ONE IS KINDA SKETCHY NOW
+                leftHand.setImage(new Image(imageFileP));
                 resultLabel.setText(model.getWinner(selection));
+                String imageFileAI = model.getCompImage();
+                rightHand.setImage(new Image(imageFileAI)); //Done! but maybe can be better written
                 resultLabel.setVisible(true);
                 changeToLastView();
             }
@@ -114,15 +121,11 @@ public class GameViewController implements Initializable {
                 scorePlayer++;
                 resultLabelPlayer.setText("" + scorePlayer);
                 playerDesicionView.setVisible(false);
-                aiNamelLabel.setVisible(false);
-                playerNameLabel.setVisible(false);
                 versusLabel.setVisible(false);
                 resultImage.setVisible(true);
                // resultImage.setImage(new Image("/icons/win-icon.png"));
             } else if (model.getWinner(decision).contains("Tie")) {
                 playerDesicionView.setVisible(false);
-                aiNamelLabel.setVisible(false);
-                playerNameLabel.setVisible(false);
                 versusLabel.setVisible(false);
                 resultImage.setVisible(true);
               //  resultImage.setImage(new Image("/icons/draw-icon.png"));
@@ -130,8 +133,6 @@ public class GameViewController implements Initializable {
                 scoreAI++;
                 resultLabelAI.setText("" + scoreAI);
                 playerDesicionView.setVisible(false);
-                aiNamelLabel.setVisible(false);
-                playerNameLabel.setVisible(false);
                 versusLabel.setVisible(false);
                 resultImage.setVisible(true);
               //  resultImage.setImage(new Image("/icons/lose-icon.png"));
@@ -139,13 +140,11 @@ public class GameViewController implements Initializable {
         }
     }
     public void clearScreen(){
-        resultImage.setVisible(false);
-        resultLabel.setVisible(false);
-        versusLabel.setVisible(true);
         scorePlayer = 0;
         resultLabelPlayer.setText("" + scorePlayer);
         scoreAI = 0;
         resultLabelAI.setText("" + scoreAI);
+        setOriginalHands();
     }
 
     public void handleRestartBtn(ActionEvent actionEvent) {
