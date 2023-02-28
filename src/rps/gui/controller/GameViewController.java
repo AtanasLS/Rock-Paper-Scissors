@@ -36,13 +36,13 @@ public class GameViewController implements Initializable {
             rightHand,
             humanImg;
     @FXML
-    private Label versusLabel, playerNameLabel, aiNamelLabel, resultLabelAI, resultLabelPlayer,resultLabel;
+    private Label resultLabelAI, resultLabelPlayer,resultLabel;
     @FXML
     private MFXButton restartBtn;
     private int scoreAI = 0;
     private int scorePlayer = 0;
 
-    private String decision;
+    private String selection;
 
     GameViewModel model = new GameViewModel();
 
@@ -73,7 +73,6 @@ public class GameViewController implements Initializable {
 
     public void handleScissors(MouseEvent mouseEvent) {
         handleSelection("/icons/sicossors-icon.png" ,"Scissor");
-
     }
 
     public void handlePaper(MouseEvent mouseEvent) {
@@ -82,7 +81,6 @@ public class GameViewController implements Initializable {
 
     public void rockHandle(MouseEvent mouseEvent) {
         handleSelection("/icons/rock-icon.png",  "Rock");
-
     }
 
     private void handleSelection(String imageFileP , String selection) {
@@ -91,16 +89,16 @@ public class GameViewController implements Initializable {
         Bounce leftHandBounce = new Bounce(leftHand);
         Bounce rightHandBounce = new Bounce(rightHand);
 
-
         EventHandler<ActionEvent> setImage = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                model.getWinner(selection);
                 leftHand.setImage(new Image(imageFileP));
                 resultLabel.setText(model.getWinner(selection));
                 String imageFileAI = model.getCompImage();
                 rightHand.setImage(new Image(imageFileAI)); //Done! but maybe can be better written
                 resultLabel.setVisible(true);
-                changeToLastView();
+                changeToLastView(selection);
             }
         };
 
@@ -115,32 +113,25 @@ public class GameViewController implements Initializable {
         timeline.play();
     }
 
-    public void changeToLastView() {
-        if (decision != null) {
-            if (model.getWinner(decision).contains("Human Win")) {
+    public void changeToLastView(String selection) {
+        this.selection = selection;
+        if (this.selection != null) {
+            if (model.getWinner(this.selection).contains("Human Win")) {
                 scorePlayer++;
                 resultLabelPlayer.setText("" + scorePlayer);
                 playerDesicionView.setVisible(false);
-                versusLabel.setVisible(false);
-                resultImage.setVisible(true);
-               // resultImage.setImage(new Image("/icons/win-icon.png"));
-            } else if (model.getWinner(decision).contains("Tie")) {
+            } else if (model.getWinner(this.selection).contains("Tie")) {
                 playerDesicionView.setVisible(false);
-                versusLabel.setVisible(false);
-                resultImage.setVisible(true);
-              //  resultImage.setImage(new Image("/icons/draw-icon.png"));
-            } else if (model.getWinner(decision).contains("AI")){
+            } else if (model.getWinner(this.selection).contains("AI")){
                 scoreAI++;
                 resultLabelAI.setText("" + scoreAI);
                 playerDesicionView.setVisible(false);
-                versusLabel.setVisible(false);
-                resultImage.setVisible(true);
-              //  resultImage.setImage(new Image("/icons/lose-icon.png"));
             }
         }
     }
     public void clearScreen(){
         scorePlayer = 0;
+        resultLabel.setText("");
         resultLabelPlayer.setText("" + scorePlayer);
         scoreAI = 0;
         resultLabelAI.setText("" + scoreAI);
