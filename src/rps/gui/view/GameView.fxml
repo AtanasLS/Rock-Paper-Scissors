@@ -218,11 +218,30 @@
                   </GridPane>
                   <Line endX="100.0" startX="-450.5" GridPane.rowIndex="1" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="29.0" stroke="#00000017" strokeType="INSIDE" width="144.0" GridPane.rowIndex="1" />
-                  <Label prefHeight="19.0" prefWidth="58.0" text="Round 1" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Arial Rounded MT Bold" size="13.0" />
-                     </font>
-                  </Label>
+                  <GridPane maxWidth="100.0" prefWidth="100.0" GridPane.rowIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="66.099365234375" minWidth="10.0" prefWidth="66.099365234375" />
+                      <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="47.764892578125" minWidth="10.0" prefWidth="34.400634765625" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Rounds">
+                           <font>
+                              <Font name="Arial Rounded MT Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="roundNumber" text="0" GridPane.columnIndex="1">
+                           <GridPane.margin>
+                              <Insets left="5.0" />
+                           </GridPane.margin>
+                           <font>
+                              <Font name="Arial Rounded MT Bold" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
                </children>
             </GridPane>
          </children>

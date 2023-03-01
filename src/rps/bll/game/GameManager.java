@@ -17,6 +17,8 @@ public class GameManager {
     private IPlayer bot;
     private IPlayer human;
 
+    private int roundNumber;
+
     /**
      * Initializes the GameManager with IPlayers
      * Game expected to be played Human vs Bot
@@ -29,6 +31,10 @@ public class GameManager {
         this.bot = bot;
     }
 
+    public int getRoundNumber(){
+        return this.gameState.getRoundNumber();
+    }
+
     /**
      * User input driven Update
      *
@@ -37,7 +43,7 @@ public class GameManager {
     public Result playRound(Move human_move) {
         Move bot_move = bot.doMove(gameState);//ask the bot to make a move...
         Result result;
-        int roundNumber = gameState.getRoundNumber();
+        roundNumber = gameState.getRoundNumber();
 
         //Rules
         if (human_move == bot_move)

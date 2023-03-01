@@ -36,7 +36,7 @@ public class GameViewController implements Initializable {
             rightHand,
             humanImg;
     @FXML
-    private Label resultLabelAI, resultLabelPlayer,resultLabel;
+    private Label resultLabelAI, resultLabelPlayer,resultLabel,roundNumber;
     @FXML
     private MFXButton restartBtn;
     private int scoreAI = 0;
@@ -48,7 +48,6 @@ public class GameViewController implements Initializable {
 
     private String imageAI = model.getCompImage();
 
-
     /**
      * Initializes the controller class.
      */
@@ -59,6 +58,7 @@ public class GameViewController implements Initializable {
 
     private void setImages(){
         setOriginalHands();
+        roundNumber.setText(String.valueOf(model.getRoundNumber()));
         rockImage.setImage(new Image("/icons/rock-icon.png"));
         paperImage.setImage(new Image("/icons/paper-icon.png"));
         sicissorsImage.setImage(new Image("/icons/sicossors-icon.png"));
@@ -95,6 +95,7 @@ public class GameViewController implements Initializable {
                 model.getWinner(selection);
                 leftHand.setImage(new Image(imageFileP));
                 resultLabel.setText(model.getWinner(selection));
+                roundNumber.setText(String.valueOf(model.getRoundNumber()));
                 String imageFileAI = model.getCompImage();
                 rightHand.setImage(new Image(imageFileAI)); //Done! but maybe can be better written
                 resultLabel.setVisible(true);
@@ -116,6 +117,7 @@ public class GameViewController implements Initializable {
     public void changeToLastView(String selection) {
         this.selection = selection;
         if (this.selection != null) {
+            System.out.println(model.getRoundNumber());
             if (model.getWinner(this.selection).contains("Human Win")) {
                 scorePlayer++;
                 resultLabelPlayer.setText("" + scorePlayer);
@@ -133,6 +135,7 @@ public class GameViewController implements Initializable {
         scorePlayer = 0;
         resultLabel.setText("");
         resultLabelPlayer.setText("" + scorePlayer);
+        roundNumber.setText("");
         scoreAI = 0;
         resultLabelAI.setText("" + scoreAI);
         setOriginalHands();
