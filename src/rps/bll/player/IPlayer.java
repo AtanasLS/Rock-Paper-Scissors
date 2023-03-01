@@ -34,4 +34,6 @@ public interface IPlayer {
     public Move doMove(IGameState state);
 
     public String getAIMove(IGameState state);
+
+    public void update(String newMove);
 }

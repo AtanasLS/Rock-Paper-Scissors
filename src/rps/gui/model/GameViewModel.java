@@ -19,36 +19,32 @@ public class GameViewModel {
     private String getTypeOfResult;
     public String compMove;
 
-    public String getWinner(String decision){
+    public String getOutput(){
+        return  this.output;
+    }
 
+    public String getWinner(String decision){
         IPlayer human = new Player("Human", PlayerType.Human);
         IPlayer bot = new Player("AI", PlayerType.AI);
-
+        GameManager gm = new GameManager(human, bot);
+        System.out.println( decision);
         if (decision.equals("Rock")){
-            GameManager gm = new GameManager(human, bot);
-            gm.playRound(Move.valueOf(decision));
+            output=getResultAsString(gm.playRound(Move.valueOf(decision)));
             compMove = String.valueOf(gm.getAIMove(Move.valueOf(decision)));
-            gm.getGameState().getHistoricResults().forEach((result) -> {
-            output = getResultAsString(result);}
-            );
-
+            System.out.println(compMove);
+            bot.update("rock");
         } else if (decision.equals("Paper")) {
-            GameManager gm = new GameManager(human, bot);
-            gm.playRound(Move.valueOf(decision));
+            output=getResultAsString(gm.playRound(Move.valueOf(decision)));
             compMove = String.valueOf(gm.getAIMove(Move.valueOf(decision)));
-            gm.getGameState().getHistoricResults().forEach(this::getResultAsString);
-            gm.getGameState().getHistoricResults().forEach((result) -> {
-                output = getResultAsString(result);}
-            );
+            System.out.println(compMove);
+            bot.update("paper");
         }else {
-            GameManager gm = new GameManager(human, bot);
-            gm.playRound(Move.valueOf(decision));
+            output=getResultAsString(gm.playRound(Move.valueOf(decision)));
             compMove = String.valueOf(gm.getAIMove(Move.valueOf(decision)));
-            gm.getGameState().getHistoricResults().forEach(this::getResultAsString);
-            gm.getGameState().getHistoricResults().forEach((result) -> {
-                output = getResultAsString(result);}
-            );
+            System.out.println(compMove);
+            bot.update("scissors");
         }
+        System.out.println(output);
         return output;
     }
     public String getResultAsString(Result result) {
