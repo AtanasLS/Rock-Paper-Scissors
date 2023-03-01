@@ -120,6 +120,7 @@ public class GameViewController implements Initializable {
             if (model.getWinner(decision).contains("Human Win")) {
                 scorePlayer++;
                 resultLabelPlayer.setText("" + scorePlayer);
+                System.out.println(scorePlayer);
                 playerDesicionView.setVisible(false);
                 versusLabel.setVisible(false);
                 resultImage.setVisible(true);

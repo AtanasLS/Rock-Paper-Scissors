@@ -32,6 +32,7 @@ public class GameViewModel {
             output = getResultAsString(result);}
             );
 
+            bot.update("rock");
         } else if (decision.equals("Paper")) {
             GameManager gm = new GameManager(human, bot);
             gm.playRound(Move.valueOf(decision));
@@ -40,6 +41,9 @@ public class GameViewModel {
             gm.getGameState().getHistoricResults().forEach((result) -> {
                 output = getResultAsString(result);}
             );
+            bot.update("paper");
+
+
         }else {
             GameManager gm = new GameManager(human, bot);
             gm.playRound(Move.valueOf(decision));
@@ -48,6 +52,9 @@ public class GameViewModel {
             gm.getGameState().getHistoricResults().forEach((result) -> {
                 output = getResultAsString(result);}
             );
+            
+            bot.update("s");
+
         }
         return output;
     }
