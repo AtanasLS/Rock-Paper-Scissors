@@ -24,7 +24,7 @@ public class GameManager {
      * @param bot
      */
     public GameManager(IPlayer human, IPlayer bot) {
-        gameState = new GameState(new ArrayList<>(), 1);
+        gameState = new GameState(new ArrayList<>(), 0);
         this.human = human;
         this.bot = bot;
     }

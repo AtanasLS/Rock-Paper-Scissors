@@ -19,7 +19,7 @@ public class GameState implements IGameState {
      * @param roundNumber
      */
     public GameState(ArrayList<Result> historicResults, int roundNumber) {
-        this.historicResults = new ArrayList<>();
+        this.historicResults = historicResults;
         this.roundNumber = roundNumber;
     }
 

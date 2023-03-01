@@ -10,47 +10,60 @@ import rps.bll.player.PlayerType;
 import rps.gui.controller.GameViewController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class GameViewModel {
-
-
     private String output;
     private String getTypeOfResult;
-    public String compMove;
+    private String compMove;
+
+    private GameManager gm;
+
+    private  IPlayer human;
+
+    private IPlayer bot;
 
     public String getOutput(){
-        return  this.output;
+        return this.output;
     }
 
-    public String getWinner(String decision){
-        IPlayer human = new Player("Human", PlayerType.Human);
-        IPlayer bot = new Player("AI", PlayerType.AI);
-        GameManager gm = new GameManager(human, bot);
-        System.out.println( decision);
+    public GameViewModel() {
+        human = new Player("Human", PlayerType.Human);
+        bot = new Player("AI", PlayerType.AI);
+        this.gm = new GameManager(human, bot);
+    }
+
+    public Map<String, Integer> getWinner(String decision){
+        Map<String, Integer> result = new HashMap<>();
+        int roundNumber = 0;
+        System.out.println(decision);
         if (decision.equals("Rock")){
             output=getResultAsString(gm.playRound(Move.valueOf(decision)));
             compMove = String.valueOf(gm.getAIMove(Move.valueOf(decision)));
+            roundNumber = gm.getGameState().getRoundNumber();
             System.out.println(compMove);
             bot.update("rock");
         } else if (decision.equals("Paper")) {
             output=getResultAsString(gm.playRound(Move.valueOf(decision)));
             compMove = String.valueOf(gm.getAIMove(Move.valueOf(decision)));
             System.out.println(compMove);
+            roundNumber = gm.getGameState().getRoundNumber();
             bot.update("paper");
         }else {
             output=getResultAsString(gm.playRound(Move.valueOf(decision)));
             compMove = String.valueOf(gm.getAIMove(Move.valueOf(decision)));
+            roundNumber = gm.getGameState().getRoundNumber();
             System.out.println(compMove);
             bot.update("scissors");
         }
         System.out.println(output);
-        return output;
+        result.put(output, roundNumber);
+        return result;
     }
     public String getResultAsString(Result result) {
-            //return result.getWinnerPlayer().getPlayerName();
             if (result.getType().toString().equals("Tie")){
-
                 return result.getType().toString();
             }else {
                 return result.getWinnerPlayer().getPlayerName() + " " + result.getType().toString();
@@ -69,8 +82,5 @@ public class GameViewModel {
         }
         return image;
     }
-
-
-
 
 }
