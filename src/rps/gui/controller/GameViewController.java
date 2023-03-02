@@ -71,7 +71,7 @@ public class GameViewController implements Initializable {
 
     private void setImages(){
         setOriginalHands();
-        rockImage.setImage(new Image("/icons/rock-icon.png"));
+        rockImage.setImage(new Image("/icons/left-hand.png"));
         paperImage.setImage(new Image("/icons/paper-icon.png"));
         sicissorsImage.setImage(new Image("/icons/sicossors-icon.png"));
         compImage.setImage(new Image("/icons/AI-starting-icon.png"));
@@ -92,7 +92,7 @@ public class GameViewController implements Initializable {
     }
 
     public void rockHandle(MouseEvent mouseEvent) {
-        handleSelection("/icons/rock-icon.png",  "Rock");
+        handleSelection("/icons/left-hand.png",  "Rock");
     }
 
     private void handleSelection(String imageFileP , String selection) {

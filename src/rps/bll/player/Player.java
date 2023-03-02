@@ -62,16 +62,16 @@ public class Player implements IPlayer {
         Random rand = new Random();
         float ranFloat = rand.nextFloat();
         if(ranFloat <= markovChain[lastMove][1]){
-            lastAIMove=Move.Rock.toString();
-            return Move.Rock;
-        }
-        else if (ranFloat <= markovChain[lastMove][2] + markovChain[lastMove][1]){
             lastAIMove=Move.Paper.toString();
             return Move.Paper;
         }
-        else{
+        else if (ranFloat <= markovChain[lastMove][2] + markovChain[lastMove][1]){
             lastAIMove=Move.Scissor.toString();
             return Move.Scissor;
+        }
+        else{
+            lastAIMove=Move.Rock.toString();
+            return Move.Rock;
         }
 
     }
@@ -113,7 +113,10 @@ public class Player implements IPlayer {
 
         //For debug purposes, let's go ahead and print the contents of this Markov Chain:
 
-
+        System.out.println("New Markov Chain");
+        System.out.println("Rock to Rock: " + markovChain[0][0] + " Rock to Paper: " + markovChain[0][1] + " Rock to Scissors: " + markovChain[0][2]);
+        System.out.println("Paper to Rock: " + markovChain[1][0] + " Paper to Paper: " + markovChain[1][1] + " Paper to Scissors: " + markovChain[1][2]);
+        System.out.println("Scissors to Rock: " + markovChain[2][0] + " Scissors to Paper: " + markovChain[2][1] + " Scissors to Scissors: " + markovChain[2][2]);
     }
 
     public String getAIMove(IGameState state){
