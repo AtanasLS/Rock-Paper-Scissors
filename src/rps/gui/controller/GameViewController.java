@@ -8,11 +8,15 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import rps.gui.model.GameViewModel;
 import javafx.animation.KeyFrame;
@@ -25,6 +29,8 @@ import java.util.ResourceBundle;
  * @author smsj
  */
 public class GameViewController implements Initializable {
+    @FXML
+    private BorderPane mainPane;
     @FXML
     private ImageView rockImage,
             paperImage,
@@ -52,6 +58,7 @@ public class GameViewController implements Initializable {
     private final int MAX_ROUNDS = 5;
 
 
+
     /**
      * Initializes the controller class.
      */
@@ -59,7 +66,7 @@ public class GameViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         setImages();
         restartBtn.setOnAction(event -> handleRestartBtn(event));
-       // endSession.setOnAction(event -> handleEndSession(event));
+        endSession.setOnAction(event -> handleEndSession(event));
     }
 
     private void setImages(){
@@ -159,11 +166,12 @@ public class GameViewController implements Initializable {
     public void clearScreen(){
         scorePlayer = 0;
         resultLabel.setText("");
-        roundCount.setText("");
+        roundCount.setText("0");
         resultLabelPlayer.setText("" + scorePlayer);
         scoreAI = 0;
         resultLabelAI.setText("" + scoreAI);
         setOriginalHands();
+        model.resetScore();
     }
 
     private void handleRestartBtn(ActionEvent actionEvent) {
@@ -172,6 +180,16 @@ public class GameViewController implements Initializable {
     }
 
     private void handleEndSession(ActionEvent event) {
+        if(Integer.parseInt(roundCount.getText()) != MAX_ROUNDS){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText("Are you sure you want to close unfinished game ? ");
+            var result = alert.showAndWait();
+
+            if(result.get().equals(ButtonType.OK)){
+                Stage stage = (Stage) mainPane.getScene().getWindow();
+                stage.close();
+            }
+        }
         event.consume();
     }
 }

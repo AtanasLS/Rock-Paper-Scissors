@@ -56,6 +56,11 @@ public class GameManager {
         return result;
     }
 
+    public boolean resetResult(){
+        this.gameState.setRoundNumber(0);
+        return true;
+    }
+
     public Move getAIMove(Move human_move) {
        // Move bot_move = bot.doMove(gameState);//ask the bot to make a move...
         Move AIMove = Move.valueOf(bot.getAIMove(gameState));

@@ -62,6 +62,10 @@ public class GameViewModel {
         result.put(output, roundNumber);
         return result;
     }
+
+    public boolean resetScore(){
+        return gm.resetResult();
+    }
     public String getResultAsString(Result result) {
             if (result.getType().toString().equals("Tie")){
                 return result.getType().toString();
