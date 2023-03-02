@@ -8,14 +8,20 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import rps.gui.model.GameViewModel;
 import javafx.animation.KeyFrame;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -23,7 +29,8 @@ import java.util.ResourceBundle;
  * @author smsj
  */
 public class GameViewController implements Initializable {
-
+    @FXML
+    private BorderPane mainPane;
     @FXML
     private ImageView rockImage,
             paperImage,
@@ -36,9 +43,9 @@ public class GameViewController implements Initializable {
             rightHand,
             humanImg;
     @FXML
-    private Label resultLabelAI, resultLabelPlayer,resultLabel;
+    private Label resultLabelAI, resultLabelPlayer,resultLabel,roundCount;
     @FXML
-    private MFXButton restartBtn;
+    private MFXButton restartBtn,endSession;
     private int scoreAI = 0;
     private int scorePlayer = 0;
 
@@ -48,6 +55,9 @@ public class GameViewController implements Initializable {
 
     private String imageAI = model.getCompImage();
 
+    private final int MAX_ROUNDS = 5;
+
+
 
     /**
      * Initializes the controller class.
@@ -55,6 +65,8 @@ public class GameViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setImages();
+        restartBtn.setOnAction(event -> handleRestartBtn(event));
+        endSession.setOnAction(event -> handleEndSession(event));
     }
 
     private void setImages(){
@@ -92,11 +104,12 @@ public class GameViewController implements Initializable {
         EventHandler<ActionEvent> setImage = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                model.getWinner(selection);
+                Map<String, Integer> result = model.getWinner(selection);
+                roundCount.setText(String.valueOf(result.entrySet().iterator().next().getValue()));
                 leftHand.setImage(new Image(imageFileP));
-                resultLabel.setText(model.getWinner(selection));
+                resultLabel.setText(model.getOutput());
                 String imageFileAI = model.getCompImage();
-                rightHand.setImage(new Image(imageFileAI)); //Done! but maybe can be better written
+                rightHand.setImage(new Image(imageFileAI));
                 resultLabel.setVisible(true);
                 changeToLastView(selection);
             }
@@ -116,29 +129,67 @@ public class GameViewController implements Initializable {
     public void changeToLastView(String selection) {
         this.selection = selection;
         if (this.selection != null) {
-            if (model.getWinner(this.selection).contains("Human Win")) {
+            if (model.getOutput().contains("Human Win")) {
                 scorePlayer++;
                 resultLabelPlayer.setText("" + scorePlayer);
                 playerDesicionView.setVisible(false);
-            } else if (model.getWinner(this.selection).contains("Tie")) {
+                resolveScore();
+            } else if (model.getOutput().contains("Tie")) {
                 playerDesicionView.setVisible(false);
-            } else if (model.getWinner(this.selection).contains("AI")){
+                resolveScore();
+            } else if (model.getOutput().contains("AI")){
                 scoreAI++;
                 resultLabelAI.setText("" + scoreAI);
                 playerDesicionView.setVisible(false);
+                resolveScore();
             }
+        }
+    }
+
+    private void resolveScore(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        if(Integer.parseInt(roundCount.getText()) == MAX_ROUNDS){
+            playerDesicionView.setVisible(false);
+            if(scorePlayer > scoreAI){
+                alert.setContentText("You won! Your score: " + scorePlayer + ", AI score: " + scoreAI);
+                alert.show();
+            } else if(scorePlayer < scoreAI) {
+                alert.setContentText("You lost! Your score: " + scorePlayer + ", AI score: " + scoreAI);
+                alert.show();
+            } else {
+                alert.setContentText("It's a tie! Your score: " + scorePlayer + ", AI score: " + scoreAI);
+                alert.show();
+            }
+            clearScreen();
         }
     }
     public void clearScreen(){
         scorePlayer = 0;
         resultLabel.setText("");
+        roundCount.setText("0");
         resultLabelPlayer.setText("" + scorePlayer);
         scoreAI = 0;
         resultLabelAI.setText("" + scoreAI);
         setOriginalHands();
+        model.resetScore();
     }
 
-    public void handleRestartBtn(ActionEvent actionEvent) {
+    private void handleRestartBtn(ActionEvent actionEvent) {
         clearScreen();
+        actionEvent.consume();
+    }
+
+    private void handleEndSession(ActionEvent event) {
+        if(Integer.parseInt(roundCount.getText()) != MAX_ROUNDS){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText("Are you sure you want to close unfinished game ? ");
+            var result = alert.showAndWait();
+
+            if(result.get().equals(ButtonType.OK)){
+                Stage stage = (Stage) mainPane.getScene().getWindow();
+                stage.close();
+            }
+        }
+        event.consume();
     }
 }

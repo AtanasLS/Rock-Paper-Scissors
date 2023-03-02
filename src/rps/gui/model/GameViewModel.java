@@ -10,51 +10,64 @@ import rps.bll.player.PlayerType;
 import rps.gui.controller.GameViewController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class GameViewModel {
-
-
     private String output;
     private String getTypeOfResult;
-    public String compMove;
+    private String compMove;
 
-    public String getWinner(String decision){
+    private GameManager gm;
 
-        IPlayer human = new Player("Human", PlayerType.Human);
-        IPlayer bot = new Player("AI", PlayerType.AI);
+    private  IPlayer human;
 
+    private IPlayer bot;
+
+    public String getOutput(){
+        return this.output;
+    }
+
+    public GameViewModel() {
+        human = new Player("Human", PlayerType.Human);
+        bot = new Player("AI", PlayerType.AI);
+        this.gm = new GameManager(human, bot);
+    }
+
+    public Map<String, Integer> getWinner(String decision){
+        Map<String, Integer> result = new HashMap<>();
+        int roundNumber = 0;
+        System.out.println(decision);
         if (decision.equals("Rock")){
-            GameManager gm = new GameManager(human, bot);
-            gm.playRound(Move.valueOf(decision));
+            output=getResultAsString(gm.playRound(Move.valueOf(decision)));
             compMove = String.valueOf(gm.getAIMove(Move.valueOf(decision)));
-            gm.getGameState().getHistoricResults().forEach((result) -> {
-            output = getResultAsString(result);}
-            );
-
+            roundNumber = gm.getGameState().getRoundNumber();
+            System.out.println(compMove);
+            bot.update("rock");
         } else if (decision.equals("Paper")) {
-            GameManager gm = new GameManager(human, bot);
-            gm.playRound(Move.valueOf(decision));
+            output=getResultAsString(gm.playRound(Move.valueOf(decision)));
             compMove = String.valueOf(gm.getAIMove(Move.valueOf(decision)));
-            gm.getGameState().getHistoricResults().forEach(this::getResultAsString);
-            gm.getGameState().getHistoricResults().forEach((result) -> {
-                output = getResultAsString(result);}
-            );
+            System.out.println(compMove);
+            roundNumber = gm.getGameState().getRoundNumber();
+            bot.update("paper");
         }else {
-            GameManager gm = new GameManager(human, bot);
-            gm.playRound(Move.valueOf(decision));
+            output=getResultAsString(gm.playRound(Move.valueOf(decision)));
             compMove = String.valueOf(gm.getAIMove(Move.valueOf(decision)));
-            gm.getGameState().getHistoricResults().forEach(this::getResultAsString);
-            gm.getGameState().getHistoricResults().forEach((result) -> {
-                output = getResultAsString(result);}
-            );
+            roundNumber = gm.getGameState().getRoundNumber();
+            System.out.println(compMove);
+            bot.update("scissors");
         }
-        return output;
+        System.out.println(output);
+        result.put(output, roundNumber);
+        return result;
+    }
+
+    public boolean resetScore(){
+        return gm.resetResult();
     }
     public String getResultAsString(Result result) {
-            //return result.getWinnerPlayer().getPlayerName();
             if (result.getType().toString().equals("Tie")){
-
                 return result.getType().toString();
             }else {
                 return result.getWinnerPlayer().getPlayerName() + " " + result.getType().toString();
@@ -64,17 +77,14 @@ public class GameViewModel {
         String image = "";
         if (compMove!= null){
             if (compMove.equals("Rock")){
-                image = "/icons/rock-icon.png";
+                image = "/icons/left-hand-ai.png";
             }else if (compMove.equals("Scissor")){
-                image = "/icons/sicossors-icon.png";
+                image = "/icons/sicossors-icon-ai.png";
             }else {
-                image = "/icons/paper-icon.png";
+                image = "/icons/paper-icon-ai.png";
             }
         }
         return image;
     }
-
-
-
 
 }

@@ -24,7 +24,7 @@ public class GameManager {
      * @param bot
      */
     public GameManager(IPlayer human, IPlayer bot) {
-        gameState = new GameState(new ArrayList<>(), 1);
+        gameState = new GameState(new ArrayList<>(), 0);
         this.human = human;
         this.bot = bot;
     }
@@ -40,9 +40,9 @@ public class GameManager {
         int roundNumber = gameState.getRoundNumber();
 
         //Rules
-        if (human_move == bot_move)
+        if (human_move.equals(bot_move)) {
             result = new Result(human, human_move, bot, bot_move, ResultType.Tie, roundNumber);
-        else if ((human_move == Move.Rock && bot_move == Move.Scissor) ||
+        } else if ((human_move == Move.Rock && bot_move == Move.Scissor) ||
                 (human_move == Move.Scissor && bot_move == Move.Paper) ||
                 (human_move == Move.Paper && bot_move == Move.Rock)) {
             result = new Result(human, human_move, bot, bot_move, ResultType.Win, roundNumber);
@@ -54,6 +54,11 @@ public class GameManager {
         gameState.getHistoricResults().add(result);
 
         return result;
+    }
+
+    public boolean resetResult(){
+        this.gameState.setRoundNumber(0);
+        return true;
     }
 
     public Move getAIMove(Move human_move) {
