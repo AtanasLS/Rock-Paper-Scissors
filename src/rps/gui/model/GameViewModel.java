@@ -77,11 +77,11 @@ public class GameViewModel {
         String image = "";
         if (compMove!= null){
             if (compMove.equals("Rock")){
-                image = "/icons/rock-icon.png";
+                image = "/icons/left-hand-ai.png";
             }else if (compMove.equals("Scissor")){
-                image = "/icons/sicossors-icon.png";
+                image = "/icons/sicossors-icon-ai.png";
             }else {
-                image = "/icons/paper-icon.png";
+                image = "/icons/paper-icon-ai.png";
             }
         }
         return image;
